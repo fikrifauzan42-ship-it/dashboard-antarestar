@@ -18,7 +18,7 @@ export async function GET() {
       fetchSheet(RUNRATE_ID, 'Report MoM'),
       fetchSheet(RUNRATE_ID, 'Report DoD'),
       fetchSheet(FUNNEL_ID, 'Shopee Antarestar'),
-      fetchSheet(FUNNEL_ID, 'Tiktok Antarestar'),
+      fetchSheet(FUNNEL_ID, 'TikTok Antarestar'),
     ]);
     return NextResponse.json({ success: true, mom, dod, shopee, tiktok, lastUpdated: new Date().toISOString() });
   } catch (error) {
