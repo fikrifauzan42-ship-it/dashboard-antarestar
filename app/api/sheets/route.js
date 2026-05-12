@@ -7,7 +7,7 @@ const RUNRATE_ID = '1e3r3CXm84q9uy7kbYswVIULM3bwWjL5C_1UWPmD3tRA';
 const FUNNEL_ID = '1kEUGXaIo2kTrucIAG4wsGRiw3FpV4gNcF2aAf6ZVoao';
 
 async function fetchSheet(spreadsheetId, tab) {
-  const range = tab + '!A1:Z200';
+  const range = "'" + tab + "'!A1:Z200";
   const url = SHEETS_API + '/' + spreadsheetId + '/values/' + encodeURIComponent(range) + '?key=' + API_KEY;
   const res = await fetch(url, { cache: 'no-store' });
   if (!res.ok) {
