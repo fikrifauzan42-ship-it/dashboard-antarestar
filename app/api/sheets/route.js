@@ -6,24 +6,26 @@ const API_KEY = process.env.GOOGLE_SHEETS_API_KEY;
 const RUNRATE_ID = '1e3r3CXm84q9uy7kbYswVIULM3bwWjL5C_1UWPmD3tRA';
 const FUNNEL_ID = '1kEUGXaIo2kTrucIAG4wsGRiw3FpV4gNcF2aAf6ZVoao';
 
-async function fetchSheet(spreadsheetId, range) {
+async function fetchSheet(spreadsheetId, tab) {
+  const range = encodeURIComponent(tab + '!A1:Z200');
   const url = `${SHEETS_API}/${spreadsheetId}/values/${range}?key=${API_KEY}`;
   const res = await fetch(url, { next: { revalidate: 300 } });
-  if (!res.ok) throw new Error(`Sheet fetch failed: ${res.status}`);
+  if (!res.ok) throw new Error('Failed: ' + tab + ' - ' + res.status);
   const data = await res.json();
   return data.values || [];
 }
 
 export async function GET() {
   try {
-    const [runrateData, funnelData] = await Promise.all([
-      fetchSheet(RUNRATE_ID, 'A1:Z100'),
-      fetchSheet(FUNNEL_ID, 'A1:Z100'),
+    const [mom, dod, shopee, tiktok] = await Promise.all([
+      fetchSheet(RUNRATE_ID, 'Report MoM'),
+      fetchSheet(RUNRATE_ID, 'Report DoD'),
+      fetchSheet(FUNNEL_ID, 'Shopee Antarestar'),
+      fetchSheet(FUNNEL_ID, 'Tiktok Antarestar'),
     ]);
     return NextResponse.json({
       success: true,
-      runrate: runrateData,
-      funnel: funnelData,
+      mom, dod, shopee, tiktok,
       lastUpdated: new Date().toISOString(),
     });
   } catch (error) {
