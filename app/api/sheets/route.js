@@ -7,10 +7,13 @@ const RUNRATE_ID = '1e3r3CXm84q9uy7kbYswVIULM3bwWjL5C_1UWPmD3tRA';
 const FUNNEL_ID = '1kEUGXaIo2kTrucIAG4wsGRiw3FpV4gNcF2aAf6ZVoao';
 
 async function fetchSheet(spreadsheetId, tab) {
-  const range = encodeURIComponent(tab + '!A1:Z200');
-  const url = `${SHEETS_API}/${spreadsheetId}/values/${range}?key=${API_KEY}`;
-  const res = await fetch(url, { next: { revalidate: 300 } });
-  if (!res.ok) throw new Error('Failed: ' + tab + ' - ' + res.status);
+  const range = tab + '!A1:Z200';
+  const url = SHEETS_API + '/' + spreadsheetId + '/values/' + encodeURIComponent(range) + '?key=' + API_KEY;
+  const res = await fetch(url, { cache: 'no-store' });
+  if (!res.ok) {
+    const err = await res.text();
+    throw new Error('Failed: ' + tab + ' - ' + res.status + ' - ' + err);
+  }
   const data = await res.json();
   return data.values || [];
 }
