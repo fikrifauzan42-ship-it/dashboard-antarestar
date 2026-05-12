@@ -7,8 +7,7 @@ const RUNRATE_ID = '1e3r3CXm84q9uy7kbYswVIULM3bwWjL5C_1UWPmD3tRA';
 const FUNNEL_ID = '1kEUGXaIo2kTrucIAG4wsGRiw3FpV4gNcF2aAf6ZVoao';
 
 async function fetchSheet(spreadsheetId, tab) {
-  const range = "'" + tab + "'!A1:Z200";
-  const url = SHEETS_API + '/' + spreadsheetId + '/values/' + encodeURIComponent(range) + '?key=' + API_KEY;
+  const url = SHEETS_API + '/' + spreadsheetId + '/values/' + tab + '!A1:Z200?key=' + API_KEY;
   const res = await fetch(url, { cache: 'no-store' });
   if (!res.ok) {
     const err = await res.text();
@@ -21,10 +20,10 @@ async function fetchSheet(spreadsheetId, tab) {
 export async function GET() {
   try {
     const [mom, dod, shopee, tiktok] = await Promise.all([
-      fetchSheet(RUNRATE_ID, 'Report MoM'),
-      fetchSheet(RUNRATE_ID, 'Report DoD'),
-      fetchSheet(FUNNEL_ID, 'Shopee Antarestar'),
-      fetchSheet(FUNNEL_ID, 'Tiktok Antarestar'),
+      fetchSheet(RUNRATE_ID, 'Report%20MoM'),
+      fetchSheet(RUNRATE_ID, 'Report%20DoD'),
+      fetchSheet(FUNNEL_ID, 'Shopee%20Antarestar'),
+      fetchSheet(FUNNEL_ID, 'Tiktok%20Antarestar'),
     ]);
     return NextResponse.json({
       success: true,
