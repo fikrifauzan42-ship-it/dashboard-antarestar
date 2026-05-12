@@ -17,8 +17,8 @@ async function fetchSheet(spreadsheetId, range) {
 export async function GET() {
   try {
     const [runrateData, funnelData] = await Promise.all([
-      fetchSheet(RUNRATE_ID, 'Sheet1!A1:Z100'),
-      fetchSheet(FUNNEL_ID, 'Sheet1!A1:Z100'),
+      fetchSheet(RUNRATE_ID, 'A1:Z100'),
+      fetchSheet(FUNNEL_ID, 'A1:Z100'),
     ]);
     return NextResponse.json({
       success: true,
