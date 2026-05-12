@@ -20,7 +20,6 @@ export async function GET() {
       fetchSheet(RUNRATE_ID, 'Sheet1!A1:Z100'),
       fetchSheet(FUNNEL_ID, 'Sheet1!A1:Z100'),
     ]);
-
     return NextResponse.json({
       success: true,
       runrate: runrateData,
